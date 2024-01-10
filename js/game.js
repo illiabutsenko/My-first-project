@@ -16,6 +16,7 @@ addEventListener("keydown", (e) => {
       break;
   }
 });
+
 window.addEventListener("keydown", (e) => {
   switch (e.key) {
     case "ArrowUp":
@@ -24,20 +25,53 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
+var pipeAr = [];
+pipeAr[0] = {
+  x: 520,
+  y: 0,
+};
+
+var bgAr = [];
+bgAr[0] = {
+  x: 0,
+};
+
 var xPlane = 10;
 var yPlane = 220;
-var xBg = 10;
-var fly = 0;
 
 function draw() {
-  ctx.drawImage(bg, xBg, 0);
+  for (let i = 0; i < bgAr.length; i++) {
+    ctx.drawImage(bg, bgAr[i].x, 0);
+    ctx.drawImage(bg, bgAr[i].x + 960, 0);
+    bgAr[i].x -= 0.5;
+    // console.log(bgAr[i], i);
+    if (bgAr[i].x == -970) {
+      bgAr.splice(0, 1);
+    }
+    if (bgAr[i].x == -960) {
+      bgAr.push({
+        x: 0,
+      });
+    }
+  }
 
-  ctx.drawImage(pipe, 220, -170);
-  ctx.drawImage(pipe, 220, 350);
+  for (let i = 0; i < pipeAr.length; i++) {
+    ctx.drawImage(pipe, pipeAr[i].x, pipeAr[i].y - 100);
+    ctx.drawImage(pipe, pipeAr[i].x, pipeAr[i].y + 400);
+    pipeAr[i].x -= 5;
+    // console.log(pipeAr,i);
+    if (pipeAr[i].x == -100) {
+      pipeAr.splice(0, 1);
+    }
+    if (pipeAr[i].x == 200) {
+      pipeAr.push({
+        x: 520,
+        y: Math.floor(Math.random() * pipe.height) - pipe.height,
+      });
+    }
+  }
 
-  ctx.drawImage(plane, xPlane, yPlane, 100, 100);
-
-  xBg -= fly;
+  ctx.drawImage(plane, xPlane, yPlane, 70, 70);
   requestAnimationFrame(draw);
 }
 
