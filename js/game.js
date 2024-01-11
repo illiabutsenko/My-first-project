@@ -38,6 +38,8 @@ bgAr[0] = {
 
 var xPlane = 10;
 var yPlane = 220;
+var planeWidth = 70;
+var planeHeight = 70;
 
 function draw() {
   for (let i = 0; i < bgAr.length; i++) {
@@ -69,10 +71,20 @@ function draw() {
         y: Math.floor(Math.random() * pipe.height) - pipe.height,
       });
     }
+    if (
+      (xPlane + planeWidth == pipeAr[i].x &&
+        yPlane < pipeAr[i].y + pipe.height - 100) ||
+      (xPlane + planeWidth == pipeAr[i].x &&
+        yPlane > pipeAr[i].y + pipe.height)
+    ) {
+      location.reload();
+    }
   }
 
-  ctx.drawImage(plane, xPlane, yPlane, 70, 70);
+  ctx.drawImage(plane, xPlane, yPlane, planeWidth, planeHeight);
   requestAnimationFrame(draw);
 }
+
+console.log(pipe.height, pipe.width);
 
 pipe.onload = draw;
